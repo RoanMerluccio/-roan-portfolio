@@ -17,7 +17,12 @@ export const collectionType = defineType({
     }),
     defineField({ name: 'clientType', title: 'Client Type', type: 'string' }),
     defineField({ name: 'featured', title: 'Featured', type: 'boolean', initialValue: false }),
-    defineField({ name: 'photos', title: 'Photos', type: 'array', of: [{ type: 'reference', to: [{ type: 'photo' }] }] }),
+    defineField({
+      name: 'photos',
+      title: 'Photos',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'photo' }], weak: true }],
+    }),
     defineField({ name: 'seoTitle', title: 'SEO Title', type: 'string' }),
     defineField({ name: 'seoDescription', title: 'SEO Description', type: 'text', rows: 2 }),
     defineField({ name: 'publishedAt', title: 'Published At', type: 'datetime' }),

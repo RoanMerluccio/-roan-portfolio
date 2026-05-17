@@ -8,14 +8,20 @@ export const aboutType = defineType({
     defineField({ name: 'portrait', title: 'Portrait', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'bio', title: 'Bio', type: 'array', of: [{ type: 'block' }] }),
     defineField({
-      name: 'gearList', title: 'Gear List', type: 'array',
-      of: [{
-        type: 'object',
-        fields: [
-          { name: 'label', title: 'Category', type: 'string' },
-          { name: 'items', title: 'Items', type: 'array', of: [{ type: 'string' }] },
-        ],
-      }],
+      name: 'gearList',
+      title: 'Gear List',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'gearCategory',
+          title: 'Gear Category',
+          fields: [
+            defineField({ name: 'label', title: 'Category', type: 'string' }),
+            defineField({ name: 'items', title: 'Items', type: 'array', of: [{ type: 'string' }] }),
+          ],
+        },
+      ],
     }),
   ],
 })
