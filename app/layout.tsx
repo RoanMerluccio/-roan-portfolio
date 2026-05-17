@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { Bebas_Neue, Inter } from 'next/font/google'
 import './globals.css'
 import { Nav } from '@/components/Nav'
@@ -71,13 +70,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`}>
       <body className="bg-background text-white font-body antialiased">
-        <Script
-          id="local-business-schema"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
-        >
-          {JSON.stringify(schema)}
-        </Script>
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+          }}
+        />
         <Nav />
         <main>{children}</main>
         <Footer />
