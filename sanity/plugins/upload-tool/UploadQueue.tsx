@@ -1,24 +1,33 @@
 'use client'
 
-import type { UploadItem } from './types'
+import type { UploadItem, UploadStatus } from './types'
 
 interface Props {
   items: UploadItem[]
   onRetry: (id: string) => void
 }
 
-const STATUS_LABEL: Record<string, string> = {
+const STATUS_LABEL: Partial<Record<UploadStatus, string>> = {
   waiting: 'Waiting',
-  uploading: '',
   done: '✓ Done',
   error: '✗ Error',
 }
 
-const STATUS_COLOR: Record<string, string> = {
+const STATUS_COLOR: Record<UploadStatus, string> = {
   waiting: '#555',
   uploading: '#888',
   done: '#4caf50',
   error: '#f44336',
+}
+
+function queueLabel(items: UploadItem[]): string {
+  const uploading = items.filter(i => i.status === 'uploading').length
+  const waiting = items.filter(i => i.status === 'waiting').length
+  const errors = items.filter(i => i.status === 'error').length
+  if (uploading > 0) return `${uploading} uploading`
+  if (waiting > 0) return `${waiting} waiting`
+  if (errors > 0) return `${errors} failed`
+  return `${items.length} done`
 }
 
 export function UploadQueue({ items, onRetry }: Props) {
@@ -29,9 +38,7 @@ export function UploadQueue({ items, onRetry }: Props) {
   return (
     <div>
       <p style={{ fontSize: 11, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
-        Queue · {items.filter(i => i.status !== 'done').length > 0
-          ? `${items.filter(i => i.status === 'uploading').length} uploading`
-          : `${items.length} done`}
+        Queue · {queueLabel(items)}
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -51,7 +58,10 @@ export function UploadQueue({ items, onRetry }: Props) {
             <img
               src={item.thumbnail}
               alt=""
-              style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
+              loading="lazy"
+              width={36}
+              height={36}
+              style={{ objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
             />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 12, color: '#ccc', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

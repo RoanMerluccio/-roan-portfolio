@@ -10,9 +10,24 @@ interface Props {
 export function DropZone({ disabled, onFiles }: Props) {
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const dragCounterRef = useRef(0)
+
+  function handleDragEnter(e: React.DragEvent) {
+    e.preventDefault()
+    if (disabled) return
+    dragCounterRef.current++
+    if (dragCounterRef.current === 1) setDragging(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault()
+    dragCounterRef.current--
+    if (dragCounterRef.current === 0) setDragging(false)
+  }
 
   function handleDrop(e: React.DragEvent) {
     e.preventDefault()
+    dragCounterRef.current = 0
     setDragging(false)
     if (disabled) return
     onFiles(Array.from(e.dataTransfer.files))
@@ -25,8 +40,9 @@ export function DropZone({ disabled, onFiles }: Props) {
 
   return (
     <div
-      onDragOver={e => { e.preventDefault(); if (!disabled) setDragging(true) }}
-      onDragLeave={() => setDragging(false)}
+      onDragEnter={handleDragEnter}
+      onDragOver={e => e.preventDefault()}
+      onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onClick={() => !disabled && inputRef.current?.click()}
       style={{
