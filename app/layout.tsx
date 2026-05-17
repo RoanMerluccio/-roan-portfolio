@@ -1,19 +1,23 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Bebas_Neue, Inter } from 'next/font/google'
 import './globals.css'
+import { Nav } from '@/components/Nav'
+import { Footer } from '@/components/Footer'
+import { getLocalBusinessSchema } from '@/lib/structured-data'
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
   variable: '--font-bebas',
-  subsets: ['latin'],
   display: 'swap',
+  subsets: ['latin'],
 })
 
 const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
   weight: ['400', '500', '700'],
+  variable: '--font-inter',
   display: 'swap',
+  subsets: ['latin'],
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'TODO_WEBSITE_URL'
@@ -62,10 +66,21 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const schema = getLocalBusinessSchema()
+
   return (
     <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`}>
       <body className="bg-background text-white font-body antialiased">
-        {children}
+        <Script
+          id="local-business-schema"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+        >
+          {JSON.stringify(schema)}
+        </Script>
+        <Nav />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   )
