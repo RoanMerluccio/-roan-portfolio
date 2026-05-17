@@ -1,10 +1,16 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700&display=swap');
+@theme {
+  --color-background: #0a0a0a;
+  --color-surface: #111111;
+  --color-surface-2: #1a1a1a;
+  --color-accent: #e8ff00;
+  --color-muted: #555555;
 
-:root {
-  --font-bebas: 'Bebas Neue', sans-serif;
-  --font-inter: 'Inter', sans-serif;
+  --font-family-display: var(--font-bebas), sans-serif;
+  --font-family-body: var(--font-inter), sans-serif;
+
+  --tracking-widest: 0.25em;
 }
 
 * {
@@ -12,12 +18,12 @@
 }
 
 body {
-  background-color: #0a0a0a;
+  background-color: var(--color-background);
   color: #ffffff;
-  font-family: var(--font-inter);
+  font-family: var(--font-family-body);
 }
 
 ::selection {
-  background-color: #e8ff00;
-  color: #0a0a0a;
+  background-color: var(--color-accent);
+  color: var(--color-background);
 }
