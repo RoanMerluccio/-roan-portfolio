@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Bebas_Neue, Inter } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
