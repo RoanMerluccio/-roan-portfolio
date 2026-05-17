@@ -29,13 +29,25 @@ export function UploadTool() {
     updateItem(item.id, { status: 'uploading', progress: 0 })
 
     try {
-      const [rawExif] = await Promise.all([
-        exifr.parse(item.file).catch(() => ({})),
-      ])
+      const rawExif = await exifr.parse(item.file).catch(() => ({}))
       const exif = parseExifFields(rawExif ?? {})
       updateItem(item.id, { exif })
 
-      const asset = await client.assets.upload('image', item.file)
+      // Use observable API to get real-time upload progress
+      const asset = await new Promise<{ _id: string }>((resolve, reject) => {
+        const subscription = client.observable.assets.upload('image', item.file).subscribe({
+          next(event) {
+            if (event.type === 'progress') {
+              updateItem(item.id, { progress: event.percent ?? 0 })
+            }
+            if (event.type === 'response') {
+              subscription.unsubscribe()
+              resolve(event.body.document as { _id: string })
+            }
+          },
+          error: reject,
+        })
+      })
 
       await client.create({
         _type: 'photo',
