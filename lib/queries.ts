@@ -5,11 +5,11 @@ export type Collection = {
   title: string
   slug: { current: string }
   coverImage: { asset: { _ref: string }; hotspot?: object; alt?: string }
-  accentColor: string
-  description: string
+  accentColor?: string
+  description?: string
   location?: string
   category?: string
-  featured: boolean
+  featured?: boolean
   photoCount: number
   seoTitle?: string
   seoDescription?: string
@@ -54,7 +54,7 @@ export async function getCollection(slug: string): Promise<(Collection & { photo
     `*[_type == "collection" && slug.current == $slug][0] {
       _id, title, slug, coverImage, accentColor, description, location, category, featured,
       seoTitle, seoDescription,
-      "photos": photos[]-> { _id, image, alt, caption, order }
+      "photos": photos[defined(@->)]->{ _id, image, alt, caption, order }
     }`,
     { slug }
   )
@@ -63,7 +63,7 @@ export async function getCollection(slug: string): Promise<(Collection & { photo
 export async function getPrints(): Promise<Print[]> {
   return client.fetch(
     `*[_type == "print" && available == true] | order(_createdAt desc) {
-      _id, title, photo->{ image, alt }, description, sizesAvailable, priceRange, available
+      _id, title, "photo": photo->{ image, alt }, description, sizesAvailable, priceRange, available
     }`
   )
 }
