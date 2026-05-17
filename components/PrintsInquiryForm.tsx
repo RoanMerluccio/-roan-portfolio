@@ -14,12 +14,16 @@ export function PrintsInquiryForm({ printTitle, onClose }: PrintsInquiryFormProp
     e.preventDefault()
     setStatus('sending')
     const data = Object.fromEntries(new FormData(e.currentTarget))
-    const res = await fetch('/api/prints-inquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    setStatus(res.ok ? 'sent' : 'error')
+    try {
+      const res = await fetch('/api/prints-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      setStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setStatus('error')
+    }
   }
 
   if (status === 'sent') {
