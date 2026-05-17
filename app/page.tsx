@@ -1,4 +1,6 @@
-﻿import { HeroSection } from '@/components/HeroSection'
+﻿export const dynamic = 'force-dynamic'
+
+import { HeroSection } from '@/components/HeroSection'
 import { CollectionsGrid } from '@/components/CollectionsGrid'
 import { FAQ } from '@/components/FAQ'
 import { getCollections } from '@/lib/queries'

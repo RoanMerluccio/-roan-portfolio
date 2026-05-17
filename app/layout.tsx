@@ -23,6 +23,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'TODO_WEBSITE_URL'
 const ogImage = `${siteUrl}/og-image.jpg`
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`),
   title: {
     default: 'Car Photographer in Westchester, NY | Roan Merluccio Automotive Photography',
     template: '%s | Roan Merluccio Automotive Photography',

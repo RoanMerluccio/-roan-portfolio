@@ -10,8 +10,9 @@ interface Props {
 }
 
 export async function generateStaticParams() {
+  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return []
   const collections = await getCollections()
-  return collections.map(c => ({ slug: c.slug.current }))
+  return collections.map(c => ({ slug: c.slug?.current ?? '' })).filter(p => p.slug)
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
