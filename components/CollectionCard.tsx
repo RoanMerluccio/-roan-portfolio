@@ -15,8 +15,8 @@ export function CollectionCard({ collection, featured = false }: CollectionCardP
 
   return (
     <Link
-      href={`/collections/${collection.slug.current}`}
-      className="group relative flex flex-col justify-end overflow-hidden bg-surface"
+      href={`/collections/${collection.slug?.current ?? '#'}`}
+      className="group relative flex flex-col justify-end overflow-hidden bg-surface h-full"
       style={{ minHeight: featured ? '480px' : '240px' }}
     >
       {imageUrl && (
@@ -24,6 +24,7 @@ export function CollectionCard({ collection, featured = false }: CollectionCardP
           src={imageUrl}
           alt={`${collection.title} — automotive photography by Roan Merluccio`}
           fill
+          priority={featured}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           sizes={featured ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
         />

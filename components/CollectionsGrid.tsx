@@ -13,7 +13,7 @@ export function CollectionsGrid({ collections }: CollectionsGridProps) {
       <p className="text-xs tracking-widest uppercase text-accent mb-4">Latest Work</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
         {featured && (
-          <div className="md:col-span-2 md:row-span-2">
+          <div className="md:col-span-2 md:row-span-2 h-full">
             <CollectionCard collection={featured} featured />
           </div>
         )}

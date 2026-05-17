@@ -37,16 +37,23 @@ export function FAQ() {
           <div key={i} className="border border-surface-2 bg-surface">
             <dt>
               <button
+                id={`faq-btn-${i}`}
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex justify-between items-center px-5 py-4 text-left text-sm font-medium tracking-wide text-white hover:text-accent transition-colors"
                 aria-expanded={open === i}
+                aria-controls={`faq-panel-${i}`}
               >
                 {faq.q}
-                <span className="ml-4 text-accent font-display text-xl">{open === i ? '−' : '+'}</span>
+                <span className="ml-4 text-accent font-display text-xl" aria-hidden="true">{open === i ? '−' : '+'}</span>
               </button>
             </dt>
             {open === i && (
-              <dd className="px-5 pb-4 text-sm text-muted leading-relaxed">
+              <dd
+                id={`faq-panel-${i}`}
+                role="region"
+                aria-labelledby={`faq-btn-${i}`}
+                className="px-5 pb-4 text-sm text-muted leading-relaxed"
+              >
                 {faq.a}
               </dd>
             )}
