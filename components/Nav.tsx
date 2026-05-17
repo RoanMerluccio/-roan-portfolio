@@ -24,6 +24,7 @@ export function Nav() {
             <li key={href}>
               <Link
                 href={href}
+                aria-current={pathname === href ? 'page' : undefined}
                 className={`text-xs tracking-widest uppercase transition-colors ${
                   pathname === href ? 'text-accent' : 'text-muted hover:text-white'
                 }`}
