@@ -18,6 +18,16 @@ describe('getLocalBusinessSchema', () => {
     const areas = schema.areaServed.map((a: { name: string }) => a.name)
     expect(areas).toContain('Westchester County')
   })
+
+  it('has all 13 areaServed locations', () => {
+    const schema = getLocalBusinessSchema()
+    expect(schema.areaServed.length).toBe(13)
+  })
+
+  it('has all 12 services in makesOffer', () => {
+    const schema = getLocalBusinessSchema()
+    expect(schema.makesOffer.length).toBe(12)
+  })
 })
 
 describe('getFAQSchema', () => {
@@ -34,5 +44,10 @@ describe('getFAQSchema', () => {
       expect(q['@type']).toBe('Question')
       expect(q.acceptedAnswer['@type']).toBe('Answer')
     })
+  })
+
+  it('has exactly 5 FAQs', () => {
+    const schema = getFAQSchema()
+    expect(schema.mainEntity.length).toBe(5)
   })
 })

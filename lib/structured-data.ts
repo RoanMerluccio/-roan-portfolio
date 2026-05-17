@@ -12,7 +12,7 @@ export function getLocalBusinessSchema() {
       'Motorsport and automotive photography, rolling shots, dealership media, car listing photos, videography, and aerial content for car owners, teams, dealerships, and brands in Westchester, NYC, Connecticut, and Rochester.',
     founder: { '@type': 'Person', name: 'Roan Merluccio' },
     areaServed: [
-      { '@type': 'County', name: 'Westchester County', containedInPlace: { '@type': 'State', name: 'New York' } },
+      { '@type': 'AdministrativeArea', name: 'Westchester County', containedInPlace: { '@type': 'State', name: 'New York' } },
       { '@type': 'City', name: 'Bronxville', containedInPlace: { '@type': 'State', name: 'New York' } },
       { '@type': 'City', name: 'New Rochelle', containedInPlace: { '@type': 'State', name: 'New York' } },
       { '@type': 'City', name: 'White Plains', containedInPlace: { '@type': 'State', name: 'New York' } },
