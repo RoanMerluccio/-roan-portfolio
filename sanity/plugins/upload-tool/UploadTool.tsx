@@ -47,13 +47,19 @@ export function UploadTool() {
         })
       })
 
-      await client.create({
+      const photoDoc = await client.create({
         _type: 'photo',
         image: { _type: 'image', asset: { _type: 'reference', _ref: asset._id } },
         alt: item.file.name.replace(/\.[^/.]+$/, ''),
         collection: { _type: 'reference', _ref: item.collectionId },
         ...exif,
       })
+
+      await client
+        .patch(item.collectionId)
+        .setIfMissing({ photos: [] })
+        .append('photos', [{ _type: 'reference', _ref: photoDoc._id, _weak: true }])
+        .commit()
 
       URL.revokeObjectURL(item.thumbnail)
       updateItem(item.id, { status: 'done', progress: 100 })
