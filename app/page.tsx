@@ -1,6 +1,8 @@
 ﻿export const dynamic = 'force-dynamic'
 
 import { HeroSection } from '@/components/HeroSection'
+import { ServiceBlocks } from '@/components/ServiceBlocks'
+import { FeaturedWork } from '@/components/FeaturedWork'
 import { CollectionsGrid } from '@/components/CollectionsGrid'
 import { FAQ } from '@/components/FAQ'
 import { getCollections } from '@/lib/queries'
@@ -19,6 +21,8 @@ export default async function HomePage() {
         }}
       />
       <HeroSection />
+      <ServiceBlocks />
+      <FeaturedWork />
       <CollectionsGrid collections={collections} />
       <FAQ />
     </>
