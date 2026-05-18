@@ -18,14 +18,12 @@ export function UploadTool() {
 
   const queueRef = useRef<UploadItem[]>([])
   const activeCountRef = useRef(0)
-  const collectionIdRef = useRef<string | null>(null)
 
   function updateItem(id: string, patch: Partial<UploadItem>) {
     setItems(prev => prev.map(i => i.id === id ? { ...i, ...patch } : i))
   }
 
   async function uploadFile(item: UploadItem) {
-    const collectionId = collectionIdRef.current!
     updateItem(item.id, { status: 'uploading', progress: 0 })
 
     try {
@@ -53,12 +51,14 @@ export function UploadTool() {
         _type: 'photo',
         image: { _type: 'image', asset: { _type: 'reference', _ref: asset._id } },
         alt: item.file.name.replace(/\.[^/.]+$/, ''),
-        collection: { _type: 'reference', _ref: collectionId },
+        collection: { _type: 'reference', _ref: item.collectionId },
         ...exif,
       })
 
+      URL.revokeObjectURL(item.thumbnail)
       updateItem(item.id, { status: 'done', progress: 100 })
     } catch (err) {
+      URL.revokeObjectURL(item.thumbnail)
       updateItem(item.id, {
         status: 'error',
         error: err instanceof Error ? err.message : 'Upload failed',
@@ -87,6 +87,7 @@ export function UploadTool() {
       status: 'waiting' as const,
       progress: 0,
       thumbnail: URL.createObjectURL(file),
+      collectionId: selectedCollectionId!,
     }))
 
     queueRef.current.push(...newItems)
@@ -96,7 +97,6 @@ export function UploadTool() {
 
   function handleSelectCollection(id: string) {
     setSelectedCollectionId(id)
-    collectionIdRef.current = id
   }
 
   function handleRetry(id: string) {

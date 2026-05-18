@@ -21,6 +21,7 @@ export interface UploadItem {
   status: UploadStatus
   progress: number
   thumbnail: string
+  collectionId: string
   exif?: ExifFields
   error?: string
 }
